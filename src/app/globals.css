@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-border: var(--border-color);
+  --color-muted: var(--muted);
+  --color-accent-purple: #8B5CF6;
+  --color-accent-blue: #3B82F6;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Light theme (default) */
+:root,
+.light {
+  --bg: #FAFAFA;
+  --fg: #111827;
+  --surface: #FFFFFF;
+  --surface-hover: #F3F4F6;
+  --border-color: #E5E7EB;
+  --muted: #6B7280;
+}
+
+/* Dark theme */
+.dark {
+  --bg: #0B0D13;
+  --fg: #F3F4F6;
+  --surface: #151823;
+  --surface-hover: #1E2235;
+  --border-color: #2A2E3F;
+  --muted: #9CA3AF;
+}
+
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gradient border */
+.gradient-border {
+  border-image: linear-gradient(135deg, #8B5CF6, #3B82F6) 1;
+}
+
+/* Glass effect */
+.glass {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Smooth image loading */
+img {
+  transition: opacity 0.3s ease;
+}
+
+/* Remove link tap highlight on mobile */
+a {
+  -webkit-tap-highlight-color: transparent;
+}
