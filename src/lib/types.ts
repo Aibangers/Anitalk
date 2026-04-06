@@ -72,4 +72,5 @@ export interface TrendingDiscussion {
   lastActive: string;
   coverImage: string;
   hotTake: string;
+  anilistId?: number;
 }

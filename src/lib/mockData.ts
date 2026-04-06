@@ -92,6 +92,7 @@ export const mockTrendingDiscussions: TrendingDiscussion[] = [
     lastActive: '5 min ago',
     coverImage: 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx151807-m1gX3iwfIsLu.png',
     hotTake: '"That entrance was the most hype moment in anime this year"',
+    anilistId: 151807,
   },
   {
     id: '2',
@@ -101,6 +102,7 @@ export const mockTrendingDiscussions: TrendingDiscussion[] = [
     lastActive: '12 min ago',
     coverImage: 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx145064-5fa4ZBbW4dqA.jpg',
     hotTake: '"MAPPA absolutely cooked with this adaptation"',
+    anilistId: 145064,
   },
   {
     id: '3',
@@ -110,6 +112,7 @@ export const mockTrendingDiscussions: TrendingDiscussion[] = [
     lastActive: '23 min ago',
     coverImage: 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx154587-gHSraOSa0nBG.jpg',
     hotTake: '"Frieren just dropped the most emotionally devastating episode"',
+    anilistId: 154587,
   },
   {
     id: '4',
@@ -119,6 +122,7 @@ export const mockTrendingDiscussions: TrendingDiscussion[] = [
     lastActive: '34 min ago',
     coverImage: 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx171018-2ldCj6QywuOa.jpg',
     hotTake: '"Science SARU is carrying anime right now"',
+    anilistId: 171018,
   },
   {
     id: '5',
@@ -128,6 +132,7 @@ export const mockTrendingDiscussions: TrendingDiscussion[] = [
     lastActive: '1 hr ago',
     coverImage: 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21-YCDoj1EkAxFn.jpg',
     hotTake: '"Gear 5 Luffy fights are on another level"',
+    anilistId: 21,
   },
 ];
 

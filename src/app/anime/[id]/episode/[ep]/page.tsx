@@ -138,7 +138,7 @@ export default async function EpisodeDiscussionPage({ params }: Props) {
               Discussion
             </h2>
             <span className="text-xs text-muted bg-surface-hover rounded-full px-3 py-1">
-              6 comments
+              8 comments
             </span>
           </div>
           <CommentSection animeId={animeId} episode={episodeNum} />

@@ -15,13 +15,17 @@ const ThemeContext = createContext<ThemeContextType>({
 });
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme, setTheme] = useState<Theme>('dark');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem('anitalk-theme') as Theme | null;
     if (stored) {
       setTheme(stored);
+    } else {
+      // Default to dark, but respect system preference if no saved choice
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(prefersDark ? 'dark' : 'dark'); // default dark either way for anime vibes
     }
     setMounted(true);
   }, []);

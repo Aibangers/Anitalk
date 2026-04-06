@@ -43,6 +43,11 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
+/* Smooth theme transition for key elements */
+body, .glass, nav, footer, select, input, textarea, button {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
 /* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
@@ -88,4 +93,9 @@ img {
 /* Remove link tap highlight on mobile */
 a {
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Safe area for mobile bottom nav (iOS notch/home indicator) */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }

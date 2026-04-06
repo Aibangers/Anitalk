@@ -4,8 +4,18 @@ import AnimeCard from '@/components/AnimeCard';
 import { mockTrendingDiscussions } from '@/lib/mockData';
 import { AnimeMedia } from '@/lib/types';
 
+function getNextSeason(season: string, year: number): { season: string; year: number } {
+  const order = ['WINTER', 'SPRING', 'SUMMER', 'FALL'];
+  const idx = order.indexOf(season);
+  if (idx === 3) return { season: 'WINTER', year: year + 1 };
+  return { season: order[idx + 1], year };
+}
+
 export default async function HomePage() {
   const { season, year } = getCurrentSeason();
+  const next = getNextSeason(season, year);
+  const seasonLabel = season.charAt(0) + season.slice(1).toLowerCase();
+  const nextSeasonLabel = next.season.charAt(0) + next.season.slice(1).toLowerCase();
   let seasonalAnime: AnimeMedia[] = [];
   let trendingAnime: AnimeMedia[] = [];
 
@@ -70,7 +80,11 @@ export default async function HomePage() {
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-2xl font-bold">Currently Airing</h2>
-              <p className="text-sm text-muted mt-1">{season.charAt(0) + season.slice(1).toLowerCase()} {year} Season</p>
+              <p className="text-sm text-muted mt-1">
+                {seasonLabel} {year} Season
+                <span className="mx-2 text-border">·</span>
+                <span className="text-accent-purple">{nextSeasonLabel} {next.year} coming soon</span>
+              </p>
             </div>
             <Link
               href="/seasonal"
@@ -91,7 +105,7 @@ export default async function HomePage() {
       )}
 
       {/* Trending Discussions Section */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <section id="trending" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-2xl font-bold">Trending Discussions</h2>
@@ -104,9 +118,10 @@ export default async function HomePage() {
         </div>
         <div className="grid gap-3">
           {mockTrendingDiscussions.map((discussion, idx) => (
-            <div
+            <Link
               key={discussion.id}
-              className="group flex items-center gap-4 rounded-xl bg-surface border border-border p-4 hover:border-accent-purple/50 hover:bg-surface-hover transition-all cursor-pointer"
+              href={discussion.anilistId ? `/anime/${discussion.anilistId}/episode/${discussion.episodeNumber}` : '#'}
+              className="group flex items-center gap-4 rounded-xl bg-surface border border-border p-4 hover:border-accent-purple/50 hover:bg-surface-hover transition-all"
             >
               <span className="text-lg font-bold text-muted/50 w-6 text-center">
                 {idx + 1}
@@ -132,7 +147,7 @@ export default async function HomePage() {
                 <span className="text-xs font-medium">{discussion.commentCount.toLocaleString()} comments</span>
                 <span className="text-[10px] text-muted">{discussion.lastActive}</span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

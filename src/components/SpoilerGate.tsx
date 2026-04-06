@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useSession } from 'next-auth/react';
 
 interface SpoilerGateProps {
   animeId: number;
@@ -9,22 +10,57 @@ interface SpoilerGateProps {
 }
 
 export default function SpoilerGate({ animeId, totalEpisodes, children }: SpoilerGateProps) {
+  const { data: session } = useSession();
   const storageKey = `anitalk-progress-${animeId}`;
   const maxEp = totalEpisodes || 24;
   const [progress, setProgress] = useState<number>(0);
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
+  // Load progress from API or localStorage
+  const loadProgress = useCallback(async () => {
+    if (session?.user) {
+      try {
+        const res = await fetch(`/api/progress?animeId=${animeId}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.maxEpisode > 0) {
+            setProgress(data.maxEpisode);
+            setMounted(true);
+            return;
+          }
+        }
+      } catch {
+        // Fall back to localStorage
+      }
+    }
+
+    // Fall back to localStorage for anonymous users
     const stored = localStorage.getItem(storageKey);
     if (stored) {
       setProgress(parseInt(stored, 10));
     }
     setMounted(true);
-  }, [storageKey]);
+  }, [animeId, session, storageKey]);
 
-  const handleProgressChange = (value: number) => {
+  useEffect(() => {
+    loadProgress();
+  }, [loadProgress]);
+
+  const handleProgressChange = async (value: number) => {
     setProgress(value);
     localStorage.setItem(storageKey, value.toString());
+
+    if (session?.user) {
+      try {
+        await fetch('/api/progress', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ animeId, maxEpisode: value }),
+        });
+      } catch {
+        // localStorage is the fallback
+      }
+    }
   };
 
   if (!mounted) return null;
