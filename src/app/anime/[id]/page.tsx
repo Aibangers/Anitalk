@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import { getAnimeDetails } from '@/lib/anilist';
 import { notFound } from 'next/navigation';
 import SpoilerGate from '@/components/SpoilerGate';
-import EpisodeList from '@/components/EpisodeList';
 import StreamingLinks from '@/components/StreamingLinks';
 
 interface Props {
@@ -214,15 +213,7 @@ export default async function AnimeShowPage({ params }: Props) {
                 </svg>
                 Episode Discussions
               </h2>
-              <SpoilerGate animeId={animeId} totalEpisodes={anime.episodes}>
-                {(maxEpisode) => (
-                  <EpisodeList
-                    animeId={animeId}
-                    totalEpisodes={anime.episodes}
-                    maxEpisode={maxEpisode}
-                  />
-                )}
-              </SpoilerGate>
+              <SpoilerGate animeId={animeId} totalEpisodes={anime.episodes} />
             </div>
           </div>
         </div>

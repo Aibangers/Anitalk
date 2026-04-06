@@ -2,14 +2,14 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
+import EpisodeList from './EpisodeList';
 
 interface SpoilerGateProps {
   animeId: number;
   totalEpisodes: number | null;
-  children: (maxEpisode: number) => React.ReactNode;
 }
 
-export default function SpoilerGate({ animeId, totalEpisodes, children }: SpoilerGateProps) {
+export default function SpoilerGate({ animeId, totalEpisodes }: SpoilerGateProps) {
   const { data: session } = useSession();
   const storageKey = `anitalk-progress-${animeId}`;
   const maxEp = totalEpisodes || 24;
@@ -35,9 +35,11 @@ export default function SpoilerGate({ animeId, totalEpisodes, children }: Spoile
     }
 
     // Fall back to localStorage for anonymous users
-    const stored = localStorage.getItem(storageKey);
-    if (stored) {
-      setProgress(parseInt(stored, 10));
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem(storageKey);
+      if (stored) {
+        setProgress(parseInt(stored, 10));
+      }
     }
     setMounted(true);
   }, [animeId, session, storageKey]);
@@ -48,7 +50,9 @@ export default function SpoilerGate({ animeId, totalEpisodes, children }: Spoile
 
   const handleProgressChange = async (value: number) => {
     setProgress(value);
-    localStorage.setItem(storageKey, value.toString());
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(storageKey, value.toString());
+    }
 
     if (session?.user) {
       try {
@@ -121,8 +125,12 @@ export default function SpoilerGate({ animeId, totalEpisodes, children }: Spoile
         )}
       </div>
 
-      {/* Gated Content */}
-      {children(progress)}
+      {/* Episode List - rendered directly instead of via render prop */}
+      <EpisodeList
+        animeId={animeId}
+        totalEpisodes={totalEpisodes}
+        maxEpisode={progress}
+      />
     </div>
   );
 }
