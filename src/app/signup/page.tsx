@@ -55,8 +55,7 @@ export default function SignUpPage() {
         // Account created but login failed — redirect to login
         router.push('/login');
       } else {
-        router.push('/');
-        router.refresh();
+        window.location.href = '/';
       }
     } catch {
       setError('Something went wrong. Please try again.');
